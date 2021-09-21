@@ -1,25 +1,42 @@
 import "./style.css";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import gsap from "gsap";
 import * as dat from "dat.gui";
 
-// debug
-const gui = new dat.GUI({ closed: true , width: 400});
-// gui.hide();
+// Textures
+const loadingManager = new THREE.LoadingManager();
 
-const parameters = {
-  color: 0xff0000,
-  spin: () => {
-    gsap.to(mesh.rotation, { duration: 1, y: mesh.rotation.y + 10 });
-  },
+loadingManager.onStart = () => {
+  console.log("on start");
+};
+loadingManager.onLoad = () => {
+  console.log("on load");
+};
+loadingManager.onProgress = () => {
+  console.log("on progress");
+};
+loadingManager.onError = () => {
+  console.log("on error");
 };
 
-gui.addColor(parameters, "color").onChange(() => {
-  material.color.set(parameters.color);
-});
+const textureLoader = new THREE.TextureLoader(loadingManager);
+const colorTexture = textureLoader.load("/textures/minecraft.png");
+const alphaTexture = textureLoader.load("/textures/door/alpha.jpg");
+const heightTexture = textureLoader.load("/textures/door/height.jpg");
+const normalTexture = textureLoader.load("/textures/door/normal.jpg");
+const ambientOcclusionTexture = textureLoader.load(
+  "/textures/door/ambientOcclusion.jpg"
+);
+const metalnessTexture = textureLoader.load("/textures/door/metalness.jpg");
+const roughnessTexture = textureLoader.load("/textures/door/roughness.jpg");
 
-gui.add(parameters, "spin");
+colorTexture.generateMipmaps = false;
+colorTexture.minFilter = THREE.NearestFilter;
+colorTexture.magFilter = THREE.NearestFilter;
+
+// debug
+const gui = new dat.GUI({ closed: true, width: 400 });
+// gui.hide();
 
 // Cursor
 const cursor = {
@@ -38,8 +55,8 @@ const canvas = document.querySelector("canvas.webgl");
 const scene = new THREE.Scene();
 
 // Objects
-const geometry = new THREE.BoxGeometry(1, 1, 1);
-const material = new THREE.MeshBasicMaterial({ color: parameters.color });
+const geometry = new THREE.BoxBufferGeometry(1, 1, 1);
+const material = new THREE.MeshBasicMaterial({ map: colorTexture });
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
 
@@ -95,8 +112,6 @@ const camera = new THREE.PerspectiveCamera(
 );
 
 camera.position.z = 3;
-// camera.position.x = 2;
-// camera.position.y = 2;
 camera.lookAt(mesh.position);
 scene.add(camera);
 
@@ -117,15 +132,6 @@ const clock = new THREE.Clock();
 // Animations
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
-
-  // Update objects
-  //   mesh.rotation.y = elapsedTime;
-
-  // Update camera
-  //   camera.position.x = Math.sin(cursor.x * Math.PI * 2) * 3;
-  //   camera.position.z = Math.cos(cursor.x * Math.PI * 2) * 3;
-  //   camera.position.y = cursor.y * 5;
-  //   camera.lookAt(mesh.position);
 
   // Update Controls
   controls.update();
