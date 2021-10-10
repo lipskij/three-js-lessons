@@ -16,20 +16,16 @@ const canvas = document.querySelector("canvas.webgl");
 // Scene
 const scene = new THREE.Scene();
 
-// Axis helper
-// const axisHelper = new THREE.AxesHelper();
-// scene.add(axisHelper);
-
 /**
  * Textures
  */
 const textureLoader = new THREE.TextureLoader();
 const matcapTexture = textureLoader.load("/textures/matcaps/2.png");
-const cubeTexture = textureLoader.load("/textures/matcaps/8.png");
+const cubeTexture = textureLoader.load("/textures/matcaps/11.jpeg");
 // Fonts
 const fontsLoader = new THREE.FontLoader();
 fontsLoader.load("/fonts/helvetiker_regular.typeface.json", (font) => {
-  const textGeometry = new THREE.TextBufferGeometry("Emil Lipskij", {
+  const textOneGeometry = new THREE.TextBufferGeometry("Emil Lipskij", {
     font: font,
     size: 0.5,
     height: 0.2,
@@ -40,27 +36,51 @@ fontsLoader.load("/fonts/helvetiker_regular.typeface.json", (font) => {
     bevelOffset: 0,
     bevelSegments: 4,
   });
+  const textTwoGeometry = new THREE.TextBufferGeometry(
+    "Front   End   Developer",
+    {
+      font: font,
+      size: 0.5,
+      height: 0.2,
+      bevelEnabled: true,
+      curvedSegment: 5,
+      bevelThickness: 0.03,
+      bevelSize: 0.02,
+      bevelOffset: 0,
+      bevelSegments: 4,
+    }
+  );
 
-  textGeometry.center();
+  textOneGeometry.center();
+  textTwoGeometry.center();
+
   const material = new THREE.MeshMatcapMaterial({ matcap: matcapTexture });
-  const text = new THREE.Mesh(textGeometry, material);
+
+  const text = new THREE.Mesh(textOneGeometry, material);
+  const textTwo = new THREE.Mesh(textTwoGeometry, material);
+
+  text.position.y = 1;
+  textTwo.position.y = 0;
+  textTwo.scale.x = 0.48;
+  textTwo.scale.y = 0.48;
+  textTwo.scale.z = 0.48;
   scene.add(text);
+  scene.add(textTwo);
 
   // optimization for loading
   const cubeGeometry = new RoundedBoxGeometry(1, 1, 1, 7, 0.1);
   const cubeMaterial = new THREE.MeshMatcapMaterial({ matcap: cubeTexture });
-
-  for (let i = 0; i < 200; i++) {
+  let cube;
+  for (let i = 0; i < 300; i++) {
     // cube with rounded egdes
     const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
 
-    cube.position.x = (Math.random() - 0.5) * 10;
-    cube.position.y = (Math.random() - 0.5) * 10;
-    cube.position.z = (Math.random() - 0.5) * 10;
+    cube.position.x = (Math.random() - 0.5) * 20;
+    cube.position.y = (Math.random() - 0.5) * 20;
+    cube.position.z = (Math.random() - 0.5) * 20;
 
     const scale = Math.random() / 4;
     cube.scale.set(scale, scale, scale);
-
     scene.add(cube);
   }
 });
