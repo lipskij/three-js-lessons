@@ -2,7 +2,7 @@ import "./style.css";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import * as dat from "dat.gui";
-// import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
+import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 
 /**
  * Base
@@ -25,7 +25,7 @@ const scene = new THREE.Scene();
  */
 const textureLoader = new THREE.TextureLoader();
 const matcapTexture = textureLoader.load("/textures/matcaps/2.png");
-
+const cubeTexture = textureLoader.load("/textures/matcaps/8.png");
 // Fonts
 const fontsLoader = new THREE.FontLoader();
 fontsLoader.load("/fonts/helvetiker_regular.typeface.json", (font) => {
@@ -40,33 +40,28 @@ fontsLoader.load("/fonts/helvetiker_regular.typeface.json", (font) => {
     bevelOffset: 0,
     bevelSegments: 4,
   });
-  //   textGeometry.computeBoundingBox();
-  //   textGeometry.translate(
-  //     -(textGeometry.boundingBox.max.x - 0.02) * 0.5,
-  //     -(textGeometry.boundingBox.max.y - 0.02) * 0.5,
-  //     -(textGeometry.boundingBox.max.z - 0.03) * 0.5
-  //   );
+
   textGeometry.center();
   const material = new THREE.MeshMatcapMaterial({ matcap: matcapTexture });
   const text = new THREE.Mesh(textGeometry, material);
   scene.add(text);
 
   // optimization for loading
-  const sphereGeometry = new THREE.SphereBufferGeometry(0.3, 16, 16);
+  const cubeGeometry = new RoundedBoxGeometry(1, 1, 1, 7, 0.1);
+  const cubeMaterial = new THREE.MeshMatcapMaterial({ matcap: cubeTexture });
 
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 200; i++) {
     // cube with rounded egdes
-    // const shpere = new RoundedBoxGeometry(1, 1, 1, 7, 0.2);
-    
-    const shpere = new THREE.Mesh(sphereGeometry, material);
-    shpere.position.x = (Math.random() - 0.5) * 10;
-    shpere.position.y = (Math.random() - 0.5) * 10;
-    shpere.position.z = (Math.random() - 0.5) * 10;
+    const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
 
-    const scale = Math.random();
-    shpere.scale.set(scale, scale, scale);
+    cube.position.x = (Math.random() - 0.5) * 10;
+    cube.position.y = (Math.random() - 0.5) * 10;
+    cube.position.z = (Math.random() - 0.5) * 10;
 
-    scene.add(shpere);
+    const scale = Math.random() / 4;
+    cube.scale.set(scale, scale, scale);
+
+    scene.add(cube);
   }
 });
 
@@ -97,13 +92,13 @@ window.addEventListener("resize", () => {
  */
 // Base camera
 const camera = new THREE.PerspectiveCamera(
-  75,
+  100,
   sizes.width / sizes.height,
   0.1,
   100
 );
-camera.position.x = 1;
-camera.position.y = 1;
+camera.position.x = 0;
+camera.position.y = 0;
 camera.position.z = 2;
 scene.add(camera);
 
@@ -127,7 +122,7 @@ const clock = new THREE.Clock();
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
-
+  // Update objects
   // Update controls
   controls.update();
 
