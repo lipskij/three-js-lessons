@@ -2,87 +2,73 @@ import "./style.css";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import * as dat from "dat.gui";
+// import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 
-// Debug
-const gui = new dat.GUI();
-
-// Textures
-const textureLoader = new THREE.TextureLoader();
-
-const doorColorTexture = textureLoader.load("/textures/door/color.jpg");
-const doorAlphaTexture = textureLoader.load("/textures/door/alpha.jpg");
-const doorAmbientOcclusionTexture = textureLoader.load(
-  "/textures/door/ambientOcclusion.jpg"
-);
-const doorHeightTexture = textureLoader.load("/textures/door/height.jpg");
-const doorNormalTexture = textureLoader.load("/textures/door/normal.jpg");
-const doorMetalnessTexture = textureLoader.load("/textures/door/metalness.jpg");
-const doorRoughnessTexture = textureLoader.load("/textures/door/roughness.jpg");
-const matcapTexture = textureLoader.load("/textures/matcaps/3.png");
-const gradientTextures = textureLoader.load("/textures/gradients/5.jpg");
-gradientTextures.minFilter = THREE.NearestFilter;
-gradientTextures.magFilter = THREE.NearestFilter;
-gradientTextures.generateMipmaps = false;
 /**
  * Base
  */
+// Debug
+const gui = new dat.GUI();
+
 // Canvas
 const canvas = document.querySelector("canvas.webgl");
 
 // Scene
 const scene = new THREE.Scene();
 
-// objects
-// material.matcap = matcapTexture
-// const material = new  THREE.MeshNormalMaterial()
-// material.flatShading = true
-// const material = new THREE.MeshBasicMaterial();
-// material.map = doorColorTexture;
-// material.color = new THREE.Color(0x00ff00)
-// material.wireframe = true
-// material.opacity = 0.5
-// material.transparent = true
-// material.alphaMap = doorAlphaTexture
-// material.side = THREE.DoubleSide
-// const material = new THREE.MeshDepthMaterial()
-// const material = new THREE.MeshLambertMaterial()
-// const material = new THREE.MeshPhongMaterial()
-// material.shininess = 100
-// material.specular = new THREE.Color(0x188ff)
-// const material = new THREE.MeshToonMaterial()
-// material.gradientMap = gradientTextures
+// Axis helper
+// const axisHelper = new THREE.AxesHelper();
+// scene.add(axisHelper);
 
-const material = new THREE.MeshStandardMaterial();
-material.metalness = 0.45;
-material.roughness = 0.65;
+/**
+ * Textures
+ */
+const textureLoader = new THREE.TextureLoader();
+const matcapTexture = textureLoader.load("/textures/matcaps/2.png");
 
-gui.add(material, "metalness").min(0).max(1).step(0.0001);
-gui.add(material, "roughness").min(0).max(1).step(0.0001);
+// Fonts
+const fontsLoader = new THREE.FontLoader();
+fontsLoader.load("/fonts/helvetiker_regular.typeface.json", (font) => {
+  const textGeometry = new THREE.TextBufferGeometry("Emil Lipskij", {
+    font: font,
+    size: 0.5,
+    height: 0.2,
+    bevelEnabled: true,
+    curvedSegment: 5,
+    bevelThickness: 0.03,
+    bevelSize: 0.02,
+    bevelOffset: 0,
+    bevelSegments: 4,
+  });
+  //   textGeometry.computeBoundingBox();
+  //   textGeometry.translate(
+  //     -(textGeometry.boundingBox.max.x - 0.02) * 0.5,
+  //     -(textGeometry.boundingBox.max.y - 0.02) * 0.5,
+  //     -(textGeometry.boundingBox.max.z - 0.03) * 0.5
+  //   );
+  textGeometry.center();
+  const material = new THREE.MeshMatcapMaterial({ matcap: matcapTexture });
+  const text = new THREE.Mesh(textGeometry, material);
+  scene.add(text);
 
-const sphare = new THREE.Mesh(
-  new THREE.SphereBufferGeometry(0.5, 16, 16),
-  material
-);
-sphare.position.x = -1.5;
+  // optimization for loading
+  const sphereGeometry = new THREE.SphereBufferGeometry(0.3, 16, 16);
 
-const plane = new THREE.Mesh(new THREE.PlaneBufferGeometry(1, 1), material);
+  for (let i = 0; i < 100; i++) {
+    // cube with rounded egdes
+    // const shpere = new RoundedBoxGeometry(1, 1, 1, 7, 0.2);
+    
+    const shpere = new THREE.Mesh(sphereGeometry, material);
+    shpere.position.x = (Math.random() - 0.5) * 10;
+    shpere.position.y = (Math.random() - 0.5) * 10;
+    shpere.position.z = (Math.random() - 0.5) * 10;
 
-const torus = new THREE.Mesh(
-  new THREE.TorusBufferGeometry(0.3, 0.2, 16, 32),
-  material
-);
-torus.position.x = 1.5;
+    const scale = Math.random();
+    shpere.scale.set(scale, scale, scale);
 
-scene.add(sphare, plane, torus);
-
-// Lights
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-scene.add(ambientLight);
-const pointLight = new THREE.PointLight(0xffffff, 0.5);
-pointLight.position.x = 2;
-pointLight.position.y = 3;
-pointLight.position.z = 4;
-scene.add(pointLight);
+    scene.add(shpere);
+  }
+});
 
 /**
  * Sizes
@@ -141,14 +127,7 @@ const clock = new THREE.Clock();
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
-  // Update objects
-  sphare.rotation.y = 0.1 * elapsedTime;
-  torus.rotation.y = 0.1 * elapsedTime;
-  plane.rotation.y = 0.1 * elapsedTime;
 
-  sphare.rotation.x = 0.15 * elapsedTime;
-  torus.rotation.x = 0.15 * elapsedTime;
-  plane.rotation.x = 0.15 * elapsedTime;
   // Update controls
   controls.update();
 
