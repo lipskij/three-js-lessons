@@ -4,6 +4,16 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import * as dat from "dat.gui";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+
+function onMouseMove(event) {
+  // calculate mouse position in normalized device coordinates
+  // (-1 to +1) for both components
+
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+}
 /**
  * Base
  */
@@ -141,8 +151,16 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 const clock = new THREE.Clock();
 
 const tick = () => {
+  raycaster.setFromCamera(mouse, camera);
+  const intersects = raycaster.intersectObjects(scene.children);
+
   const elapsedTime = clock.getElapsedTime();
+
   // Update objects
+  for (let i = 0; i < intersects.length; i++) {
+    intersects[i].object.rotation.y = elapsedTime;
+  }
+
   // Update controls
   controls.update();
 
@@ -150,6 +168,7 @@ const tick = () => {
   renderer.render(scene, camera);
 
   // Call tick again on the next frame
+  window.addEventListener("click", onMouseMove, false);
   window.requestAnimationFrame(tick);
 };
 
