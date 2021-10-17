@@ -31,7 +31,8 @@ const scene = new THREE.Scene();
  */
 const textureLoader = new THREE.TextureLoader();
 const matcapTexture = textureLoader.load("/textures/matcaps/2.png");
-const cubeTexture = textureLoader.load("/textures/matcaps/11.jpeg");
+const cubeTexture1 = textureLoader.load("/textures/matcaps/11.jpeg");
+const cubeTexture2 = textureLoader.load("/textures/matcaps/8.png");
 // Fonts
 const fontsLoader = new THREE.FontLoader();
 fontsLoader.load("/fonts/helvetiker_regular.typeface.json", (font) => {
@@ -79,8 +80,8 @@ fontsLoader.load("/fonts/helvetiker_regular.typeface.json", (font) => {
 
   // optimization for loading
   const cubeGeometry = new RoundedBoxGeometry(1, 1, 1, 7, 0.1);
-  const cubeMaterial = new THREE.MeshMatcapMaterial({ matcap: cubeTexture });
-  let cube;
+  const cubeMaterial = new THREE.MeshMatcapMaterial({ matcap: cubeTexture2 });
+
   for (let i = 0; i < 300; i++) {
     // cube with rounded egdes
     const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
@@ -88,8 +89,9 @@ fontsLoader.load("/fonts/helvetiker_regular.typeface.json", (font) => {
     cube.position.x = (Math.random() - 0.5) * 20;
     cube.position.y = (Math.random() - 0.5) * 20;
     cube.position.z = (Math.random() - 0.5) * 20;
+    cube.rotation.x = 0;
 
-    const scale = Math.random() / 4;
+    const scale = (Math.random() - 0.5) / 2;
     cube.scale.set(scale, scale, scale);
     scene.add(cube);
   }
@@ -129,7 +131,7 @@ const camera = new THREE.PerspectiveCamera(
 );
 camera.position.x = 0;
 camera.position.y = 0;
-camera.position.z = 2;
+camera.position.z = 20;
 scene.add(camera);
 
 // Controls
@@ -158,17 +160,28 @@ const tick = () => {
 
   // Update objects
   for (let i = 0; i < intersects.length; i++) {
-    intersects[i].object.rotation.y = elapsedTime;
+    if (intersects[i].object.id === 11 || intersects[i].object.id === 12) {
+      intersects[i].object.rotation.y = 0;
+    } else {
+      intersects[i].object.rotation.y = elapsedTime;
+    }
+  }
+
+  // Zoom in animation
+  let lol = 150 - elapsedTime * 100;
+  camera.position.z = lol;
+
+  if (camera.position.z < 2) {
+    camera.position.z = 2;
   }
 
   // Update controls
   controls.update();
-
   // Render
   renderer.render(scene, camera);
 
   // Call tick again on the next frame
-  window.addEventListener("click", onMouseMove, false);
+  window.addEventListener("mousemove", onMouseMove, false);
   window.requestAnimationFrame(tick);
 };
 
