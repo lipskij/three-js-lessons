@@ -131,7 +131,7 @@ const camera = new THREE.PerspectiveCamera(
 );
 camera.position.x = 0;
 camera.position.y = 0;
-camera.position.z = 20;
+camera.position.z = 3;
 scene.add(camera);
 
 // Controls
@@ -168,12 +168,12 @@ const tick = () => {
   }
 
   // Zoom in animation
-  let lol = 150 - elapsedTime * 100;
-  camera.position.z = lol;
+  // let lol = 150 - elapsedTime * 100;
+  // camera.position.z = lol;
 
-  if (camera.position.z < 2) {
-    camera.position.z = 2;
-  }
+  // if (camera.position.z < 3) {
+  //   camera.position.z = 3;
+  // }
 
   // Update controls
   controls.update();
@@ -181,7 +181,7 @@ const tick = () => {
   renderer.render(scene, camera);
 
   // Call tick again on the next frame
-  window.addEventListener("mousemove", onMouseMove, false);
+  window.addEventListener("click", onMouseMove, false);
   window.requestAnimationFrame(tick);
 };
 
