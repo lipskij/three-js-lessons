@@ -1,88 +1,129 @@
 import "./style.css";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import * as dat from "dat.gui";
+import * as dat from "lil-gui";
 
-// Debug
-const gui = new dat.GUI();
-
-// Textures
+// Texture
 const textureLoader = new THREE.TextureLoader();
-
-const doorColorTexture = textureLoader.load("/textures/door/color.jpg");
-const doorAlphaTexture = textureLoader.load("/textures/door/alpha.jpg");
-const doorAmbientOcclusionTexture = textureLoader.load(
-  "/textures/door/ambientOcclusion.jpg"
-);
-const doorHeightTexture = textureLoader.load("/textures/door/height.jpg");
-const doorNormalTexture = textureLoader.load("/textures/door/normal.jpg");
-const doorMetalnessTexture = textureLoader.load("/textures/door/metalness.jpg");
-const doorRoughnessTexture = textureLoader.load("/textures/door/roughness.jpg");
-const matcapTexture = textureLoader.load("/textures/matcaps/3.png");
-const gradientTextures = textureLoader.load("/textures/gradients/5.jpg");
-gradientTextures.minFilter = THREE.NearestFilter;
-gradientTextures.magFilter = THREE.NearestFilter;
-gradientTextures.generateMipmaps = false;
+const bakeShadow = textureLoader.load("/textures/bakedShadow.jpg");
+const simpleShadow = textureLoader.load("/textures/simpleShadow.jpg");
 /**
  * Base
  */
+// Debug
+const gui = new dat.GUI();
+
 // Canvas
 const canvas = document.querySelector("canvas.webgl");
 
 // Scene
 const scene = new THREE.Scene();
 
-// objects
-// material.matcap = matcapTexture
-// const material = new  THREE.MeshNormalMaterial()
-// material.flatShading = true
-// const material = new THREE.MeshBasicMaterial();
-// material.map = doorColorTexture;
-// material.color = new THREE.Color(0x00ff00)
-// material.wireframe = true
-// material.opacity = 0.5
-// material.transparent = true
-// material.alphaMap = doorAlphaTexture
-// material.side = THREE.DoubleSide
-// const material = new THREE.MeshDepthMaterial()
-// const material = new THREE.MeshLambertMaterial()
-// const material = new THREE.MeshPhongMaterial()
-// material.shininess = 100
-// material.specular = new THREE.Color(0x188ff)
-// const material = new THREE.MeshToonMaterial()
-// material.gradientMap = gradientTextures
-
-const material = new THREE.MeshStandardMaterial();
-material.metalness = 0.45;
-material.roughness = 0.65;
-
-gui.add(material, "metalness").min(0).max(1).step(0.0001);
-gui.add(material, "roughness").min(0).max(1).step(0.0001);
-
-const sphare = new THREE.Mesh(
-  new THREE.SphereBufferGeometry(0.5, 16, 16),
-  material
-);
-sphare.position.x = -1.5;
-
-const plane = new THREE.Mesh(new THREE.PlaneBufferGeometry(1, 1), material);
-
-const torus = new THREE.Mesh(
-  new THREE.TorusBufferGeometry(0.3, 0.2, 16, 32),
-  material
-);
-torus.position.x = 1.5;
-
-scene.add(sphare, plane, torus);
-
-// Lights
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+/**
+ * Lights
+ */
+// Ambient light
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+gui.add(ambientLight, "intensity").min(0).max(1).step(0.001);
 scene.add(ambientLight);
-const pointLight = new THREE.PointLight(0xffffff, 0.5);
-pointLight.position.x = 2;
-pointLight.position.y = 3;
-pointLight.position.z = 4;
+
+// Directional light
+const directionalLight = new THREE.DirectionalLight(0xffffff, 0.3);
+directionalLight.position.set(2, 2, -1);
+gui.add(directionalLight, "intensity").min(0).max(1).step(0.001);
+gui.add(directionalLight.position, "x").min(-5).max(5).step(0.001);
+gui.add(directionalLight.position, "y").min(-5).max(5).step(0.001);
+gui.add(directionalLight.position, "z").min(-5).max(5).step(0.001);
+scene.add(directionalLight);
+// shadow
+directionalLight.castShadow = true;
+
+directionalLight.shadow.mapSize.width = 1024;
+directionalLight.shadow.mapSize.height = 1024;
+
+// how deep the shadow goes into scene
+directionalLight.shadow.camera.top = 2;
+directionalLight.shadow.camera.right = 2;
+directionalLight.shadow.camera.bottom = -2;
+directionalLight.shadow.camera.left = -2;
+
+// to control light near and far props
+directionalLight.shadow.camera.near = 1;
+directionalLight.shadow.camera.far = 6;
+// directionalLight.shadow.radius = 10;
+
+const directionalCameraLightHelper = new THREE.CameraHelper(
+  directionalLight.shadow.camera
+);
+directionalCameraLightHelper.visible = false;
+gui.add(directionalCameraLightHelper, "visible");
+scene.add(directionalCameraLightHelper);
+
+// Spot Light
+const spotLight = new THREE.SpotLight(0xffffff, 0.3, 10, Math.PI * 0.3);
+spotLight.castShadow = true;
+spotLight.shadow.mapSize.width = 1024;
+spotLight.shadow.mapSize.height = 1024;
+spotLight.shadow.camera.fov = 30;
+spotLight.shadow.camera.near = 1;
+spotLight.shadow.camera.far = 6;
+
+spotLight.position.set(0, 2, 2);
+scene.add(spotLight);
+scene.add(spotLight.target);
+
+const spotLightCameraHelper = new THREE.CameraHelper(spotLight.shadow.camera);
+spotLightCameraHelper.visible = false;
+scene.add(spotLightCameraHelper);
+
+// Point Light
+const pointLight = new THREE.PointLight(0xffffff, 0.3);
+pointLight.castShadow = true;
+pointLight.shadow.mapSize.width = 1024;
+pointLight.shadow.mapSize.height = 1024;
+pointLight.shadow.camera.near = 0.1;
+pointLight.shadow.camera.far = 5;
+
+pointLight.position.set(-1, 1, 0);
 scene.add(pointLight);
+
+const pointLightHelper = new THREE.CameraHelper(pointLight.shadow.camera);
+pointLightHelper.visible = false;
+scene.add(pointLightHelper);
+/**
+ * Materials
+ */
+const material = new THREE.MeshStandardMaterial();
+material.roughness = 0.7;
+gui.add(material, "metalness").min(0).max(1).step(0.001);
+gui.add(material, "roughness").min(0).max(1).step(0.001);
+
+/**
+ * Objects
+ */
+const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 32, 32), material);
+sphere.castShadow = true;
+
+const plane = new THREE.Mesh(new THREE.PlaneGeometry(5, 5), material);
+plane.rotation.x = -Math.PI * 0.5;
+plane.position.y = -0.5;
+// shadow
+plane.receiveShadow = true;
+
+scene.add(sphere, plane);
+
+const sphereShadows = new THREE.Mesh(
+  new THREE.PlaneBufferGeometry(1.5, 1.5),
+  new THREE.MeshBasicMaterial({
+    color: 0x000000,
+    // when you want to use aplha opacity etc need to set transparent to true
+    transparent: true,
+    alphaMap: simpleShadow,
+  })
+);
+sphereShadows.rotation.x = -Math.PI * 0.5;
+sphereShadows.position.y = plane.position.y + 0.01;
+scene.add(sphereShadows);
 
 /**
  * Sizes
@@ -118,7 +159,7 @@ const camera = new THREE.PerspectiveCamera(
 );
 camera.position.x = 1;
 camera.position.y = 1;
-camera.position.z = 2;
+camera.position.z = 4;
 scene.add(camera);
 
 // Controls
@@ -133,6 +174,11 @@ const renderer = new THREE.WebGLRenderer({
 });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+// shadow
+// renderer.shadowMap.enabled = true;
+renderer.shadowMap.enabled = false;
+// shadow radius dont work with this
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 /**
  * Animate
@@ -141,14 +187,18 @@ const clock = new THREE.Clock();
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
-  // Update objects
-  sphare.rotation.y = 0.1 * elapsedTime;
-  torus.rotation.y = 0.1 * elapsedTime;
-  plane.rotation.y = 0.1 * elapsedTime;
 
-  sphare.rotation.x = 0.15 * elapsedTime;
-  torus.rotation.x = 0.15 * elapsedTime;
-  plane.rotation.x = 0.15 * elapsedTime;
+  // Update sphere
+  sphere.position.x = Math.cos(elapsedTime) * 1.5;
+  sphere.position.z = Math.sin(elapsedTime) * 1.5;
+  sphere.position.y = Math.abs(Math.sin(elapsedTime * 3));
+
+  // Update sphere shadow
+  sphereShadows.position.x = sphere.position.x;
+  sphereShadows.position.z = sphere.position.z;
+  sphereShadows.material.opacity = (1 - sphere.position.y) * 0.7;
+  sphereShadows.scale.z = 1 - sphere.position.y;
+
   // Update controls
   controls.update();
 
