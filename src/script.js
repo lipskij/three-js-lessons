@@ -28,12 +28,12 @@ const canvas = document.querySelector("canvas.webgl");
 const scene = new THREE.Scene();
 
 // Light
-const ambientLight = new THREE.AmbientLight(0xf00fff, 0.01);
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 gui.add(ambientLight, "intensity").min(0).max(1).step(0.001);
 scene.add(ambientLight);
 
 // Spot Light
-const spotLight = new THREE.SpotLight(0xf00fff, 0.5 , 10, Math.PI * 0.55);
+const spotLight = new THREE.SpotLight(0xffffff, 0.5, 10, Math.PI * 0.55);
 spotLight.castShadow = true;
 spotLight.shadow.mapSize.width = 1024;
 spotLight.shadow.mapSize.height = 1024;
@@ -49,14 +49,10 @@ const spotLightCameraHelper = new THREE.CameraHelper(spotLight.shadow.camera);
 spotLightCameraHelper.visible = false;
 scene.add(spotLightCameraHelper);
 
-/**
- * Textures
- */
+// Textures
 const textureLoader = new THREE.TextureLoader();
 const matcapTexture = textureLoader.load("/textures/matcaps/2.png");
-// const cubeTexture1 = textureLoader.load("/textures/matcaps/11.jpeg");
-// const cubeTexture2 = textureLoader.load("/textures/matcaps/8.png");
-// Fonts
+
 const fontsLoader = new THREE.FontLoader();
 fontsLoader.load("/fonts/font.json", (font) => {
   const textOneGeometry = new THREE.TextBufferGeometry("Emil Lipskij", {
@@ -95,35 +91,20 @@ fontsLoader.load("/fonts/font.json", (font) => {
 
   text.castShadow = true;
   textTwo.castShadow = true;
+
   text.receiveShadow = true;
   textTwo.receiveShadow = true;
 
-  text.position.y = 2;
+  text.position.y = 1.5;
   text.position.z = 1;
-  textTwo.position.z = 1;
-  textTwo.position.y = 1;
+
+  textTwo.position.z = 1.5;
+  textTwo.position.y = 0.5;
   textTwo.scale.x = 0.48;
   textTwo.scale.y = 0.48;
   textTwo.scale.z = 0.48;
 
   scene.add(text, textTwo);
-  // optimization for loading
-  // const cubeGeometry = new RoundedBoxGeometry(1, 1, 1, 7, 0.1);
-  // const cubeMaterial = new THREE.MeshMatcapMaterial({ matcap: cubeTexture2 });
-
-  // for (let i = 0; i < 300; i++) {
-  //   // cube with rounded egdes
-  //   const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
-
-  //   cube.position.x = (Math.random() - 0.5) * 20;
-  //   cube.position.y = (Math.random() - 0.5) * 20;
-  //   cube.position.z = (Math.random() - 0.5) * 20;
-  //   cube.rotation.x = 0;
-
-  //   const scale = (Math.random() - 0.5) / 2;
-  //   cube.scale.set(scale, scale, scale);
-  //   scene.add(cube);
-  // }
 });
 
 const material = new THREE.MeshStandardMaterial();
@@ -159,9 +140,6 @@ window.addEventListener("resize", () => {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 });
 
-/**
- * Camera
- */
 // Base camera
 const camera = new THREE.PerspectiveCamera(
   100,
@@ -178,9 +156,7 @@ scene.add(camera);
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
 
-/**
- * Renderer
- */
+// Renderer
 const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
 });
@@ -191,9 +167,8 @@ renderer.shadowMap.enabled = true;
 // renderer.shadowMap.enabled = false;
 // shadow radius dont work with this
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-/**
- * Animate
- */
+
+// Animate
 const clock = new THREE.Clock();
 
 const tick = () => {
@@ -216,7 +191,7 @@ const tick = () => {
   // camera.position.z = lol;
 
   // if (camera.position.z < 3) {
-  //   camera.position.z = 3;
+  //   camera.position.z = 3.5;
   // }
 
   // Update controls
