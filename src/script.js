@@ -13,8 +13,8 @@ function onMouseClick(event) {
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-  const x = event.clientX;
-  const y = event.clientY;
+  const x = event.pageX;
+  const y = event.pageY;
 
   if (x > 180 && x < 533 && y > 500 && y < 600) {
     window.scrollTo(0, "1000");
@@ -142,6 +142,20 @@ fontsLoader.load("/fonts/font.json", (font) => {
   button.rotation.x = -0.1;
 
   scene.add(text, textTwo, button);
+
+  const tick = () => {
+    const elapsedTime = clock.getElapsedTime();
+    button.rotation.x = Math.sin(elapsedTime) * -0.3;
+    // Update controls
+    controls.update();
+    // Render
+    renderer.render(scene, camera);
+
+    // Call tick again on the next frame
+    window.requestAnimationFrame(tick);
+  };
+
+  tick();
 });
 
 const cubeGeometry = new RoundedBoxGeometry(3.5, 1, 0.5, 7, 0.1);
@@ -160,15 +174,16 @@ material.roughness = 0.7;
 
 // const plane = new THREE.Mesh(new THREE.PlaneGeometry(6.5,3.5), material);
 // plane.rotation.x = -Math.PI * 0.5;
-// plane.position.y = -0.5;
-// shadow
+// plane.position.y = -2.5;
+// // shadow
 // plane.receiveShadow = true;
 // scene.add(plane);
+
 /**
  * Sizes
  */
 const sizes = {
-  width: window.innerWidth / 1.5,
+  width: window.innerWidth / 1.8,
   height: window.innerHeight / 1.5,
 };
 
@@ -194,13 +209,14 @@ const camera = new THREE.PerspectiveCamera(
   100
 );
 camera.position.x = 0;
-camera.position.y = 0.5;
+camera.position.y = 0.2;
 camera.position.z = 3.5;
 scene.add(camera);
 
 // Controls
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
+controls.enableZoom = false;
 
 // Renderer
 const renderer = new THREE.WebGLRenderer({
@@ -222,7 +238,8 @@ const tick = () => {
   // const intersects = raycaster.intersectObjects(scene.children);
 
   const elapsedTime = clock.getElapsedTime();
-
+  cube.rotation.x = Math.sin(elapsedTime) * -0.3;
+  
   // Update objects
   // for (let i = 0; i < intersects.length; i++) {
   //   if (intersects[i].object.id === 11 || intersects[i].object.id === 12) {

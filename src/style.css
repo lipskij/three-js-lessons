@@ -8,8 +8,8 @@ html,
 body {
   scroll-behavior: smooth;
   font-family: "Roboto", sans-serif;
-  /* overflow: hidden; */
   background-color: #0c0c0c;
+  /* overflow: hidden; */
 }
 
 .webgl {
@@ -43,7 +43,7 @@ nav li {
 
 nav li a {
   text-decoration: none;
-  color: #7587c4;
+  color: #92A0D1;
   font-size: 1.5rem;
 }
 
@@ -52,6 +52,39 @@ nav li a {
 }
 
 .about {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  /* justify-content: center; */
+  width: 60%;
+  margin: 0 auto;
   height: 100vh;
   color: rgb(235, 231, 231);
+}
+
+.about h2 {
+  font-size: 3rem;
+  padding-top: 5rem;
+  margin-bottom: 5rem;
+}
+
+.about p {
+  font-size: 1.5rem;
+}
+
+.contacts {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  /* justify-content: center; */
+  width: 60%;
+  margin: 0 auto;
+  height: 100vh;
+  color: rgb(235, 231, 231);
+}
+
+.contacts h2 {
+  font-size: 3rem;
+  padding-top: 5rem;
+  margin-bottom: 5rem;
 }
