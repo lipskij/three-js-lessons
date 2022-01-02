@@ -39,7 +39,9 @@
 	};
 	THREE.ShaderLib[ 'line' ] = {
 		uniforms: THREE.UniformsUtils.merge( [ THREE.UniformsLib.common, THREE.UniformsLib.fog, THREE.UniformsLib.line ] ),
-		vertexShader: `
+		vertexShader:
+  /* glsl */
+  `
 		#include <common>
 		#include <color_pars_vertex>
 		#include <fog_pars_vertex>
@@ -182,9 +184,10 @@
 			#include <clipping_planes_vertex>
 			#include <fog_vertex>
 
-		}
-		`,
-		fragmentShader: `
+		}`,
+		fragmentShader:
+  /* glsl */
+  `
 		uniform vec3 diffuse;
 		uniform float opacity;
 
@@ -260,8 +263,7 @@
 			#include <fog_fragment>
 			#include <premultiplied_alpha_fragment>
 
-		}
-		`
+		}`
 	};
 
 	class LineMaterial extends THREE.ShaderMaterial {
@@ -276,7 +278,6 @@
 				clipping: true // required for clipping support
 
 			} );
-			this.dashed = false;
 			Object.defineProperties( this, {
 				color: {
 					enumerable: true,
@@ -303,6 +304,35 @@
 						this.uniforms.linewidth.value = value;
 
 					}
+				},
+				dashed: {
+					enumerable: true,
+					get: function () {
+
+						return Boolean( 'USE_DASH' in this.defines );
+
+					},
+
+					set( value ) {
+
+						if ( Boolean( value ) !== Boolean( 'USE_DASH' in this.defines ) ) {
+
+							this.needsUpdate = true;
+
+						}
+
+						if ( value === true ) {
+
+							this.defines.USE_DASH = '';
+
+						} else {
+
+							delete this.defines.USE_DASH;
+
+						}
+
+					}
+
 				},
 				dashScale: {
 					enumerable: true,
@@ -397,7 +427,7 @@
 
 						}
 
-						if ( value ) {
+						if ( value === true ) {
 
 							this.defines.ALPHA_TO_COVERAGE = '';
 							this.extensions.derivatives = true;
