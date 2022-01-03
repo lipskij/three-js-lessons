@@ -4,7 +4,6 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 // import * as dat from "lil-gui";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 
-// const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
 function onMouseClick(event) {
@@ -167,15 +166,6 @@ scene.add(cube);
 
 const material = new THREE.MeshStandardMaterial();
 material.roughness = 0.7;
-// gui.add(material, "metalness").min(0).max(1).step(0.001);
-// gui.add(material, "roughness").min(0).max(1).step(0.001);
-
-// const plane = new THREE.Mesh(new THREE.PlaneGeometry(6.5,3.5), material);
-// plane.rotation.x = -Math.PI * 0.5;
-// plane.position.y = -2.5;
-// // shadow
-// plane.receiveShadow = true;
-// scene.add(plane);
 
 /**
  * Sizes
@@ -232,27 +222,9 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 const clock = new THREE.Clock();
 
 const tick = () => {
-  // raycaster.setFromCamera(mouse, camera);
-  // const intersects = raycaster.intersectObjects(scene.children);
 
   const elapsedTime = clock.getElapsedTime();
   cube.position.y = -1 + Math.sin(elapsedTime * 2) * -0.1;
-
-  // Update objects
-  // for (let i = 0; i < intersects.length; i++) {
-  //   if (intersects[i].object.id === 11 || intersects[i].object.id === 12) {
-  //     intersects[i].object.rotation.y = 0;
-  //   } else {
-  //     intersects[i].object.rotation.y = elapsedTime;
-  //   }
-  // }
-  // Zoom in animation
-  // let lol = 150 - elapsedTime * 100;
-  // camera.position.z = lol;
-
-  // if (camera.position.z < 3) {
-  //   camera.position.z = 3.5;
-  // }
 
   // Update controls
   controls.update();

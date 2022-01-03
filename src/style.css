@@ -64,32 +64,38 @@ nav li:hover {
 }
 
 .triangle-left {
-  width: 0; 
-  height: 0; 
+  width: 0;
+  height: 0;
   border-top: 60px solid transparent;
   border-bottom: 60px solid transparent;
   position: absolute;
   top: 45%;
   border-left: 60px solid #81f5af;
+  transition-duration: 0.3s;
 }
 
 .triangle-left:hover {
-  border-left: 60px solid #c665df;
+  border-left: 70px solid #c665df;
+  /* transform: translateX(10px); */
+  transition-duration: 0.3s;
 }
 
 .triangle-right {
-  width: 0; 
-  height: 0; 
+  width: 0;
+  height: 0;
   border-top: 60px solid transparent;
   border-bottom: 60px solid transparent;
   position: absolute;
   top: 45%;
   right: 0;
   border-right: 60px solid #81f5af;
+  transition-duration: 0.3s;
 }
 
 .triangle-right:hover {
-  border-right: 60px solid #c665df;
+  border-right: 70px solid #c665df;
+  /* transform: translateX(10px); */
+  transition-duration: 0.3s;
 }
 
 .about {
@@ -101,6 +107,7 @@ nav li:hover {
   margin: 0 auto;
   height: 100vh;
   color: #81f5af;
+  line-height: 2.2;
 }
 
 .about h2 {
@@ -111,6 +118,26 @@ nav li:hover {
 
 .about p {
   font-size: 1.5rem;
+}
+
+.icons {
+  margin-top: 5rem;
+}
+
+.icons svg {
+  margin: 0 2rem 0 2rem;
+}
+
+.work {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  /* justify-content: center; */
+  width: 60%;
+  margin: 0 auto;
+  height: 100vh;
+  color: #81f5af;
+  line-height: 2.2;
 }
 
 .contacts {
