@@ -14,6 +14,7 @@ body {
 
 .webgl {
   /* position: fixed; */
+  cursor: grab;
   top: 4rem;
   left: 0;
 }
@@ -26,6 +27,7 @@ nav {
   height: 4rem;
   width: 100%;
   background: #0c0c0c;
+  border-bottom: #c665df solid 1px;
 }
 
 nav ul {
@@ -33,22 +35,61 @@ nav ul {
   justify-content: space-around;
   align-items: center;
   margin: 0;
-  width: 45vw;
+  width: 100vw;
 }
 
 nav li {
   text-decoration: none;
   list-style: none;
+  transition-duration: 0.3s;
+  border-radius: 10px;
+  padding: 0.5rem;
 }
 
 nav li a {
   text-decoration: none;
-  color: #FFDC9D;
+  color: #81f5af;
+  transition: background-color 2s ease-out;
   font-size: 1.5rem;
+}
+
+nav li:hover {
+  background-color: #c665df;
+  transform: scale(1.05);
+  transition-duration: 0.3s;
 }
 
 .home {
   height: 100vh;
+}
+
+.triangle-left {
+  width: 0; 
+  height: 0; 
+  border-top: 60px solid transparent;
+  border-bottom: 60px solid transparent;
+  position: absolute;
+  top: 45%;
+  border-left: 60px solid #81f5af;
+}
+
+.triangle-left:hover {
+  border-left: 60px solid #c665df;
+}
+
+.triangle-right {
+  width: 0; 
+  height: 0; 
+  border-top: 60px solid transparent;
+  border-bottom: 60px solid transparent;
+  position: absolute;
+  top: 45%;
+  right: 0;
+  border-right: 60px solid #81f5af;
+}
+
+.triangle-right:hover {
+  border-right: 60px solid #c665df;
 }
 
 .about {
@@ -59,7 +100,7 @@ nav li a {
   width: 60%;
   margin: 0 auto;
   height: 100vh;
-  color: rgb(235, 231, 231);
+  color: #81f5af;
 }
 
 .about h2 {
@@ -80,7 +121,7 @@ nav li a {
   width: 60%;
   margin: 0 auto;
   height: 100vh;
-  color: rgb(235, 231, 231);
+  color: #81f5af;
 }
 
 .contacts h2 {

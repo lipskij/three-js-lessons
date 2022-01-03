@@ -16,8 +16,8 @@ function onMouseClick(event) {
   const x = event.pageX;
   const y = event.pageY;
 
-  if (x > 180 && x < 533 && y > 500 && y < 600) {
-    window.scrollTo(0, "1000");
+  if (x > 450 && x < 990 && y > 620 && y < 830) {
+    window.scrollTo(0, "2000");
   }
 }
 
@@ -35,20 +35,20 @@ const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xf0c0c0c);
 
 // Light
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+const ambientLight = new THREE.AmbientLight(0xffffff, 1);
 // gui.add(ambientLight, "intensity").min(0).max(1).step(0.001);
 scene.add(ambientLight);
 
 // Spot Light
-const spotLight = new THREE.SpotLight(0xffffff, 0.5, 10, Math.PI * 0.55);
+const spotLight = new THREE.SpotLight(0xffffff, 1, 10, Math.PI * 0.55);
 spotLight.castShadow = true;
-spotLight.shadow.mapSize.width = 624;
-spotLight.shadow.mapSize.height = 624;
+spotLight.shadow.mapSize.width = 1024;
+spotLight.shadow.mapSize.height = 1024;
 spotLight.shadow.camera.fov = 30;
 spotLight.shadow.camera.near = 1;
 spotLight.shadow.camera.far = 6;
 
-spotLight.position.set(0, 5, 2);
+spotLight.position.set(0, 2, 5);
 scene.add(spotLight);
 scene.add(spotLight.target);
 
@@ -58,9 +58,11 @@ scene.add(spotLightCameraHelper);
 
 // Textures
 const textureLoader = new THREE.TextureLoader();
-const matcapTexture = textureLoader.load("/textures/matcaps/bronze_matcap.jpeg");
-const buttonTexture = textureLoader.load("/textures/matcaps/bronze_matcap.jpeg");
-const buttonTextTexture = textureLoader.load("/textures/matcaps/dark_matcap.jpeg");
+const matcapTexture = textureLoader.load("/textures/matcaps/lgtv_matcap.jpeg");
+const buttonTexture = textureLoader.load("/textures/matcaps/lgtv_matcap.jpeg");
+const buttonTextTexture = textureLoader.load(
+  "/textures/matcaps/dark_matcap.jpeg"
+);
 
 const fontsLoader = new THREE.FontLoader();
 fontsLoader.load("/fonts/font.json", (font) => {
@@ -108,9 +110,7 @@ fontsLoader.load("/fonts/font.json", (font) => {
   buttonText.center();
 
   const material = new THREE.MeshMatcapMaterial({ matcap: matcapTexture });
-  const buttonMaterial = new THREE.MeshMatcapMaterial({
-    matcap: buttonTexture,
-  });
+
   const buttonTextMaterial = new THREE.MeshMatcapMaterial({
     matcap: buttonTextTexture,
   });
@@ -126,18 +126,17 @@ fontsLoader.load("/fonts/font.json", (font) => {
   textTwo.receiveShadow = true;
   buttonText.receiveShadow = true;
 
-  text.position.y = 1;
+  text.position.y = 1.5;
   text.position.z = 0.3;
   text.rotation.x = -0.1;
 
-  textTwo.position.z = 0.8;
-  textTwo.position.y = 0;
+  textTwo.position.z = 0.4;
+  textTwo.position.y = 0.2;
   textTwo.scale.x = 0.48;
   textTwo.scale.y = 0.48;
   textTwo.scale.z = 0.48;
   textTwo.rotation.x = -0.1;
 
-  button.position.y = -1.45;
   button.position.z = 1.2;
   button.rotation.x = -0.1;
 
@@ -145,8 +144,8 @@ fontsLoader.load("/fonts/font.json", (font) => {
 
   const tick = () => {
     const elapsedTime = clock.getElapsedTime();
-    button.rotation.y = Math.sin(elapsedTime) * -0.1;
-    // Update controls
+    button.position.y = -1 + Math.sin(elapsedTime * 2) * -0.1;
+    // Update controlss
     controls.update();
     // Render
     renderer.render(scene, camera);
@@ -162,7 +161,6 @@ const cubeGeometry = new RoundedBoxGeometry(3.5, 1, 0.5, 7, 0.1);
 const cubeMaterial = new THREE.MeshMatcapMaterial({ matcap: buttonTexture });
 const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
 
-cube.position.y = -1.5;
 cube.position.z = 1;
 cube.rotation.x = -0.1;
 scene.add(cube);
@@ -183,8 +181,8 @@ material.roughness = 0.7;
  * Sizes
  */
 const sizes = {
-  width: window.innerWidth / 1.8,
-  height: window.innerHeight / 1.5,
+  width: window.innerWidth,
+  height: window.innerHeight,
 };
 
 window.addEventListener("resize", () => {
@@ -238,7 +236,7 @@ const tick = () => {
   // const intersects = raycaster.intersectObjects(scene.children);
 
   const elapsedTime = clock.getElapsedTime();
-  cube.rotation.y = Math.sin(elapsedTime) * -0.1;
+  cube.position.y = -1 + Math.sin(elapsedTime * 2) * -0.1;
 
   // Update objects
   // for (let i = 0; i < intersects.length; i++) {
