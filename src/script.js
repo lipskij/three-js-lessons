@@ -58,9 +58,9 @@ scene.add(spotLightCameraHelper);
 
 // Textures
 const textureLoader = new THREE.TextureLoader();
-const matcapTexture = textureLoader.load("/textures/matcaps/9.jpeg");
-const buttonTexture = textureLoader.load("/textures/matcaps/3.png");
-const buttonTextTexture = textureLoader.load("/textures/matcaps/9.jpeg");
+const matcapTexture = textureLoader.load("/textures/matcaps/bronze_matcap.jpeg");
+const buttonTexture = textureLoader.load("/textures/matcaps/bronze_matcap.jpeg");
+const buttonTextTexture = textureLoader.load("/textures/matcaps/dark_matcap.jpeg");
 
 const fontsLoader = new THREE.FontLoader();
 fontsLoader.load("/fonts/font.json", (font) => {
@@ -145,7 +145,7 @@ fontsLoader.load("/fonts/font.json", (font) => {
 
   const tick = () => {
     const elapsedTime = clock.getElapsedTime();
-    button.rotation.x = Math.sin(elapsedTime) * -0.3;
+    button.rotation.y = Math.sin(elapsedTime) * -0.1;
     // Update controls
     controls.update();
     // Render
@@ -238,8 +238,8 @@ const tick = () => {
   // const intersects = raycaster.intersectObjects(scene.children);
 
   const elapsedTime = clock.getElapsedTime();
-  cube.rotation.x = Math.sin(elapsedTime) * -0.3;
-  
+  cube.rotation.y = Math.sin(elapsedTime) * -0.1;
+
   // Update objects
   // for (let i = 0; i < intersects.length; i++) {
   //   if (intersects[i].object.id === 11 || intersects[i].object.id === 12) {
