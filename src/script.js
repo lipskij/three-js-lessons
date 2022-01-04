@@ -20,9 +20,7 @@ function onMouseClick(event) {
   }
 }
 
-/**
- * Base
- */
+// Base
 // Debug
 // const gui = new dat.GUI();
 
@@ -91,7 +89,7 @@ fontsLoader.load("/fonts/font.json", (font) => {
     }
   );
 
-  // create text to put it over button
+  // Text over button
   const buttonText = new THREE.TextBufferGeometry("GET IN TOUCH", {
     font: font,
     size: 0.3,
@@ -167,12 +165,11 @@ scene.add(cube);
 const material = new THREE.MeshStandardMaterial();
 material.roughness = 0.7;
 
-/**
- * Sizes
- */
+// Sizes
 const sizes = {
-  width: window.innerWidth,
-  height: window.innerHeight,
+  width: window.innerWidth > 400 ? window.innerWidth / 2 : window.innerWidth,
+  height:
+    window.innerHeight > 600 ? window.innerHeight / 2 : window.innerHeight,
 };
 
 window.addEventListener("resize", () => {
@@ -210,6 +207,7 @@ controls.enableZoom = false;
 const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
 });
+
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 // shadow
@@ -222,7 +220,6 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 const clock = new THREE.Clock();
 
 const tick = () => {
-
   const elapsedTime = clock.getElapsedTime();
   cube.position.y = -1 + Math.sin(elapsedTime * 2) * -0.1;
 
