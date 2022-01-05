@@ -1,16 +1,303 @@
 * {
   padding: 0;
   margin: 0;
-  /* box-sizing: border-box; */
+  box-sizing: border-box;
 }
 
 html,
 body {
-  overflow: hidden;
+  scroll-behavior: smooth;
+  font-family: "Roboto", sans-serif;
+  background-color: #0c0c0c;
+  /* overflow: hidden; */
 }
 
 .webgl {
-  position: fixed;
-  top: 0;
+  /* position: fixed; */
+  cursor: grab;
+  top: 4rem;
   left: 0;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-height: 4rem;
+  height: 4rem;
+  width: 100%;
+  background: #0c0c0c;
+  border-bottom: #c665df solid 1px;
+}
+
+nav ul {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 0;
+  width: 100vw;
+}
+
+nav li {
+  text-decoration: none;
+  list-style: none;
+  transition-duration: 0.3s;
+  border-radius: 10px;
+  padding: 0.5rem;
+}
+
+nav li a {
+  text-decoration: none;
+  color: #81f5af;
+  transition: background-color 2s ease-out;
+  font-size: 1.5rem;
+}
+
+nav li:hover {
+  background-color: #c665df;
+  transform: scale(1.05);
+  transition-duration: 0.3s;
+}
+
+.home {
+  height: 100vh;
+}
+
+.triangle-left {
+  width: 0;
+  height: 0;
+  border-top: 60px solid transparent;
+  border-bottom: 60px solid transparent;
+  position: absolute;
+  top: 45%;
+  border-left: 60px solid #81f5af;
+  transition-duration: 0.3s;
+}
+
+.triangle-left:hover {
+  border-left: 70px solid #c665df;
+  /* transform: translateX(10px); */
+  transition-duration: 0.3s;
+}
+
+.triangle-right {
+  width: 0;
+  height: 0;
+  border-top: 60px solid transparent;
+  border-bottom: 60px solid transparent;
+  position: absolute;
+  top: 45%;
+  right: 0;
+  border-right: 60px solid #81f5af;
+  transition-duration: 0.3s;
+}
+
+.triangle-right:hover {
+  border-right: 70px solid #c665df;
+  /* transform: translateX(10px); */
+  transition-duration: 0.3s;
+}
+
+.about {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  /* justify-content: center; */
+  width: 60%;
+  margin: 0 auto;
+  height: 100vh;
+  color: #81f5af;
+  line-height: 2.2;
+}
+
+.about h2 {
+  font-size: 3rem;
+  padding: 5rem 0;
+}
+
+.about p {
+  font-size: 1.5rem;
+}
+
+.icons {
+  margin-top: 5rem;
+}
+
+.icons svg {
+  margin: 0 2rem 0 2rem;
+}
+
+.work {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  width: 100%;
+  margin: 0 auto;
+  height: 100%;
+  color: #81f5af;
+  line-height: 2.2;
+  margin: 0 0 10rem 0;
+}
+
+.work h2 {
+  font-size: 3rem;
+  padding: 0 0 10rem 0;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  row-gap: 10rem;
+  margin: 0 auto;
+  width: 80vw;
+  height: 100%;
+  transition-duration: 0.3s;
+}
+
+.gallery p {
+  font-size: 1.3rem;
+  padding-top: 4rem;
+}
+
+.image-one {
+  background-image: url("/static/images/send-money.png");
+  background-size: contain;
+  width: 470px;
+  height: 293px;
+  cursor: pointer;
+}
+.gallery div {
+  transition-duration: 0.3s;
+}
+.gallery div:hover {
+  transform: rotate(5deg);
+  transition-duration: 0.3s;
+}
+
+.image-two {
+  background-image: url("/static/images/ski.png");
+  background-size: contain;
+  width: 470px;
+  height: 312px;
+  cursor: pointer;
+}
+
+.image-three {
+  background-image: url("/static/images/vaskichi.png");
+  background-size: contain;
+  width: 470px;
+  height: 312px;
+  cursor: pointer;
+}
+
+.image-four {
+  background-image: url("/static/images/next-js.png");
+  background-size: contain;
+  width: 470px;
+  height: 312px;
+  cursor: pointer;
+}
+
+.contacts {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  width: 80vw;
+  margin: 0 auto;
+  height: 100vh;
+  color: #81f5af;
+}
+
+.contacts h2 {
+  font-size: 3rem;
+  padding: 0 0 10rem 0;
+}
+
+@media screen and (max-width: 900px) {
+  .gallery {
+    display: flex;
+    flex-direction: column;
+    width: 90vw;
+    height: 100%;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 368px) {
+  nav {
+    display: none;
+  }
+  canvas {
+    width: 100vw;
+    height: 100vh;
+  }
+  html {
+    width: 100vw;
+  }
+  .triangle-left {
+    display: none;
+  }
+  .triangle-right {
+    display: none;
+  }
+  .about {
+    width: 90vw;
+    height: 100%;
+  }
+  .work {
+    width: 90vw;
+    height: 100%;
+    margin: 0 auto;
+  }
+  .work h2 {
+    margin-top: 10rem;
+  }
+  .gallery {
+    display: flex;
+    flex-direction: column;
+    width: 90vw;
+    height: 100%;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: center;
+  }
+  .gallery p {
+    padding: 0;
+  }
+  .image-two {
+    background-image: url("/static/images/ski.png");
+    background-size: contain;
+    width: 300px;
+    height: 200px;
+    cursor: pointer;
+  }
+  .image-one {
+    background-image: url("/static/images/send-money.png");
+    background-size: contain;
+    width: 300px;
+    height: 187px;
+    cursor: pointer;
+  }
+  .image-three {
+    background-image: url("/static/images/vaskichi.png");
+    background-size: contain;
+    width: 300px;
+    height: 200px;
+    cursor: pointer;
+  }
+
+  .image-four {
+    background-image: url("/static/images/next-js.png");
+    background-size: contain;
+    width: 300px;
+    height: 200px;
+    cursor: pointer;
+  }
+  .contacts {
+    width: 90vw;
+    height: 100%;
+    margin-top: 10rem;
+  }
 }

@@ -1,92 +1,180 @@
 import "./style.css";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import * as dat from "dat.gui";
+// import * as dat from "lil-gui";
+import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 
+const mouse = new THREE.Vector2();
+
+function onMouseClick(event) {
+  // calculate mouse position in normalized device coordinates
+  // (-1 to +1) for both components
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+  const x = event.pageX;
+  const y = event.pageY;
+
+  if (x > 450 && x < 990 && y > 620 && y < 830) {
+    window.scrollTo(0, "2000");
+  }
+}
+
+// Base
 // Debug
-const gui = new dat.GUI();
+// const gui = new dat.GUI();
 
-// Textures
-const textureLoader = new THREE.TextureLoader();
-
-const doorColorTexture = textureLoader.load("/textures/door/color.jpg");
-const doorAlphaTexture = textureLoader.load("/textures/door/alpha.jpg");
-const doorAmbientOcclusionTexture = textureLoader.load(
-  "/textures/door/ambientOcclusion.jpg"
-);
-const doorHeightTexture = textureLoader.load("/textures/door/height.jpg");
-const doorNormalTexture = textureLoader.load("/textures/door/normal.jpg");
-const doorMetalnessTexture = textureLoader.load("/textures/door/metalness.jpg");
-const doorRoughnessTexture = textureLoader.load("/textures/door/roughness.jpg");
-const matcapTexture = textureLoader.load("/textures/matcaps/3.png");
-const gradientTextures = textureLoader.load("/textures/gradients/5.jpg");
-gradientTextures.minFilter = THREE.NearestFilter;
-gradientTextures.magFilter = THREE.NearestFilter;
-gradientTextures.generateMipmaps = false;
-/**
- * Base
- */
 // Canvas
 const canvas = document.querySelector("canvas.webgl");
 
 // Scene
 const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xf0c0c0c);
 
-// objects
-// material.matcap = matcapTexture
-// const material = new  THREE.MeshNormalMaterial()
-// material.flatShading = true
-// const material = new THREE.MeshBasicMaterial();
-// material.map = doorColorTexture;
-// material.color = new THREE.Color(0x00ff00)
-// material.wireframe = true
-// material.opacity = 0.5
-// material.transparent = true
-// material.alphaMap = doorAlphaTexture
-// material.side = THREE.DoubleSide
-// const material = new THREE.MeshDepthMaterial()
-// const material = new THREE.MeshLambertMaterial()
-// const material = new THREE.MeshPhongMaterial()
-// material.shininess = 100
-// material.specular = new THREE.Color(0x188ff)
-// const material = new THREE.MeshToonMaterial()
-// material.gradientMap = gradientTextures
+// Light
+const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+// gui.add(ambientLight, "intensity").min(0).max(1).step(0.001);
+scene.add(ambientLight);
+
+// Spot Light
+const spotLight = new THREE.SpotLight(0xffffff, 1, 10, Math.PI * 0.55);
+spotLight.castShadow = true;
+spotLight.shadow.mapSize.width = 1024;
+spotLight.shadow.mapSize.height = 1024;
+spotLight.shadow.camera.fov = 30;
+spotLight.shadow.camera.near = 1;
+spotLight.shadow.camera.far = 6;
+
+spotLight.position.set(0, 2, 5);
+scene.add(spotLight);
+scene.add(spotLight.target);
+
+const spotLightCameraHelper = new THREE.CameraHelper(spotLight.shadow.camera);
+spotLightCameraHelper.visible = false;
+scene.add(spotLightCameraHelper);
+
+// Textures
+const textureLoader = new THREE.TextureLoader();
+const matcapTexture = textureLoader.load("/textures/matcaps/lgtv_matcap.jpeg");
+const buttonTexture = textureLoader.load("/textures/matcaps/lgtv_matcap.jpeg");
+const buttonTextTexture = textureLoader.load(
+  "/textures/matcaps/dark_matcap.jpeg"
+);
+
+// Mobile sizes
+const mobilesSize = window.innerWidth < 700;
+
+const fontsLoader = new THREE.FontLoader();
+fontsLoader.load("/fonts/font.json", (font) => {
+  const textOneGeometry = new THREE.TextBufferGeometry("Emil Lipskij", {
+    font: font,
+    size: mobilesSize ? 0.5 : 0.8,
+    height: 0.2,
+    bevelEnabled: true,
+    curvedSegment: 5,
+    bevelThickness: 0.03,
+    bevelSize: 0.02,
+    bevelOffset: 0,
+    bevelSegments: 4,
+  });
+  const textTwoGeometry = new THREE.TextBufferGeometry(
+    "Front   End   Developer",
+    {
+      font: font,
+      size: mobilesSize ? 0.5 : 0.8,
+      height: 0.2,
+      bevelEnabled: true,
+      curvedSegment: 5,
+      bevelThickness: 0.03,
+      bevelSize: 0.02,
+      bevelOffset: 0,
+      bevelSegments: 4,
+    }
+  );
+
+  // Text over button
+  const buttonText = new THREE.TextBufferGeometry("GET IN TOUCH", {
+    font: font,
+    size: mobilesSize ? 0.2 : 0.3,
+    height: 0.2,
+    bevelEnabled: true,
+    curvedSegment: 5,
+    bevelThickness: 0.03,
+    bevelSize: 0.02,
+    bevelOffset: 0,
+    bevelSegments: 4,
+  });
+
+  textOneGeometry.center();
+  textTwoGeometry.center();
+  buttonText.center();
+
+  const material = new THREE.MeshMatcapMaterial({ matcap: matcapTexture });
+
+  const buttonTextMaterial = new THREE.MeshMatcapMaterial({
+    matcap: buttonTextTexture,
+  });
+
+  const text = new THREE.Mesh(textOneGeometry, material);
+  const textTwo = new THREE.Mesh(textTwoGeometry, material);
+  const button = new THREE.Mesh(buttonText, buttonTextMaterial);
+
+  text.castShadow = true;
+  textTwo.castShadow = true;
+
+  text.receiveShadow = true;
+  textTwo.receiveShadow = true;
+  buttonText.receiveShadow = true;
+
+  text.position.y = 1.5;
+  text.position.z = 0.3;
+  text.rotation.x = -0.1;
+
+  textTwo.position.z = 0.4;
+  textTwo.position.y = 0.2;
+  textTwo.scale.x = 0.48;
+  textTwo.scale.y = 0.48;
+  textTwo.scale.z = 0.48;
+  textTwo.rotation.x = -0.1;
+
+  button.position.z = 1.2;
+  button.rotation.x = -0.1;
+
+  scene.add(text, textTwo, button);
+
+  const tick = () => {
+    const elapsedTime = clock.getElapsedTime();
+    button.position.y = -1 + Math.sin(elapsedTime * 2) * -0.1;
+    // Update controlss
+    controls.update();
+    // Render
+    renderer.render(scene, camera);
+
+    // Call tick again on the next frame
+    window.requestAnimationFrame(tick);
+  };
+
+  tick();
+});
+
+const cubeGeometry = new RoundedBoxGeometry(
+  mobilesSize ? 2.5 : 3.5,
+  1,
+  0.5,
+  7,
+  0.1
+);
+const cubeMaterial = new THREE.MeshMatcapMaterial({ matcap: buttonTexture });
+const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+
+cube.position.z = 1;
+cube.rotation.x = -0.1;
+scene.add(cube);
 
 const material = new THREE.MeshStandardMaterial();
-material.metalness = 0.45;
-material.roughness = 0.65;
+material.roughness = 0.7;
 
-gui.add(material, "metalness").min(0).max(1).step(0.0001);
-gui.add(material, "roughness").min(0).max(1).step(0.0001);
-
-const sphare = new THREE.Mesh(
-  new THREE.SphereBufferGeometry(0.5, 16, 16),
-  material
-);
-sphare.position.x = -1.5;
-
-const plane = new THREE.Mesh(new THREE.PlaneBufferGeometry(1, 1), material);
-
-const torus = new THREE.Mesh(
-  new THREE.TorusBufferGeometry(0.3, 0.2, 16, 32),
-  material
-);
-torus.position.x = 1.5;
-
-scene.add(sphare, plane, torus);
-
-// Lights
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-scene.add(ambientLight);
-const pointLight = new THREE.PointLight(0xffffff, 0.5);
-pointLight.position.x = 2;
-pointLight.position.y = 3;
-pointLight.position.z = 4;
-scene.add(pointLight);
-
-/**
- * Sizes
- */
+// Sizes
 const sizes = {
   width: window.innerWidth,
   height: window.innerHeight,
@@ -106,56 +194,50 @@ window.addEventListener("resize", () => {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 });
 
-/**
- * Camera
- */
 // Base camera
 const camera = new THREE.PerspectiveCamera(
-  75,
+  100,
   sizes.width / sizes.height,
   0.1,
   100
 );
-camera.position.x = 1;
-camera.position.y = 1;
-camera.position.z = 2;
+camera.position.x = 0;
+camera.position.y = 0.2;
+camera.position.z = 3.5;
 scene.add(camera);
 
 // Controls
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
+controls.enableZoom = false;
 
-/**
- * Renderer
- */
+// Renderer
 const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
 });
+
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+// shadow
+renderer.shadowMap.enabled = true;
+// renderer.shadowMap.enabled = false;
+// shadow radius dont work with this
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-/**
- * Animate
- */
+// Animate
 const clock = new THREE.Clock();
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
-  // Update objects
-  sphare.rotation.y = 0.1 * elapsedTime;
-  torus.rotation.y = 0.1 * elapsedTime;
-  plane.rotation.y = 0.1 * elapsedTime;
+  cube.position.y = -1 + Math.sin(elapsedTime * 2) * -0.1;
 
-  sphare.rotation.x = 0.15 * elapsedTime;
-  torus.rotation.x = 0.15 * elapsedTime;
-  plane.rotation.x = 0.15 * elapsedTime;
   // Update controls
   controls.update();
-
   // Render
   renderer.render(scene, camera);
 
   // Call tick again on the next frame
+  window.addEventListener("click", onMouseClick, false);
   window.requestAnimationFrame(tick);
 };
 
