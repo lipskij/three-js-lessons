@@ -161,24 +161,32 @@ nav li:hover {
 }
 
 @media screen and (max-width: 368px) {
-  html {
+  nav {
+    display: none;
+  }
+  canvas {
     width: 100vw;
+    height: 100vh;
+  }
+  html {
+    width: 100%;
   }
   .triangle-left {
-    top: 45%;
-    border-left: 20px solid #81f5af;
+    display: none;
   }
   .triangle-right {
-    top: 45%;
-    border-right: 20px solid #81f5af;
+    display: none;
   }
   .about {
-    width: 90%;
+    width: 90vw;
+    height: 100%;
   }
   .work {
-    width: 90%;
+    width: 90vw;
+    height: 100%;
   }
   .contacts {
-    width: 90%;
+    width: 90vw;
+    height: 100%;
   }
 }

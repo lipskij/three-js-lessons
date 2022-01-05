@@ -61,11 +61,14 @@ const buttonTextTexture = textureLoader.load(
   "/textures/matcaps/dark_matcap.jpeg"
 );
 
+// Mobile sizes
+const mobilesSize = window.innerWidth < 400;
+
 const fontsLoader = new THREE.FontLoader();
 fontsLoader.load("/fonts/font.json", (font) => {
   const textOneGeometry = new THREE.TextBufferGeometry("Emil Lipskij", {
     font: font,
-    size: 0.8,
+    size: mobilesSize ? 0.5 : 0.8,
     height: 0.2,
     bevelEnabled: true,
     curvedSegment: 5,
@@ -78,7 +81,7 @@ fontsLoader.load("/fonts/font.json", (font) => {
     "Front   End   Developer",
     {
       font: font,
-      size: 0.8,
+      size: mobilesSize ? 0.5 : 0.8,
       height: 0.2,
       bevelEnabled: true,
       curvedSegment: 5,
@@ -92,7 +95,7 @@ fontsLoader.load("/fonts/font.json", (font) => {
   // Text over button
   const buttonText = new THREE.TextBufferGeometry("GET IN TOUCH", {
     font: font,
-    size: 0.3,
+    size: mobilesSize ? 0.2 : 0.3,
     height: 0.2,
     bevelEnabled: true,
     curvedSegment: 5,
@@ -154,7 +157,13 @@ fontsLoader.load("/fonts/font.json", (font) => {
   tick();
 });
 
-const cubeGeometry = new RoundedBoxGeometry(3.5, 1, 0.5, 7, 0.1);
+const cubeGeometry = new RoundedBoxGeometry(
+  mobilesSize ? 2.5 : 3.5,
+  1,
+  0.5,
+  7,
+  0.1
+);
 const cubeMaterial = new THREE.MeshMatcapMaterial({ matcap: buttonTexture });
 const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
 
@@ -167,9 +176,8 @@ material.roughness = 0.7;
 
 // Sizes
 const sizes = {
-  width: window.innerWidth > 400 ? window.innerWidth / 2 : window.innerWidth,
-  height:
-    window.innerHeight > 600 ? window.innerHeight / 2 : window.innerHeight,
+  width: window.innerWidth,
+  height: window.innerHeight,
 };
 
 window.addEventListener("resize", () => {
