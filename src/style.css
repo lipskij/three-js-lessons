@@ -131,25 +131,79 @@ nav li:hover {
   display: flex;
   flex-direction: column;
   text-align: center;
-  /* justify-content: center; */
   width: 100%;
   margin: 0 auto;
-  height: 100vh;
+  height: 100%;
   color: #81f5af;
   line-height: 2.2;
+  margin: 0 0 5rem 0;
 }
 
 .work h2 {
   font-size: 3rem;
-  padding: 5rem 0;
+  padding: 0 0 5rem 0;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  row-gap: 5rem;
+  margin: 0 auto;
+  width: 80vw;
+  height: 100%;
+  transition-duration: 0.3s;
+}
+
+.gallery p {
+  font-size: 1.3rem;
+  padding-top: 4rem;
+  /* align-self: center; */
+}
+
+.image-one {
+  background-image: url("/static/images/send-money.png");
+  background-size: contain;
+  width: 470px;
+  height: 293px;
+  cursor: pointer;
+}
+.gallery div {
+  transition-duration: 0.3s;
+}
+.gallery div:hover {
+  transform: rotate(5deg);
+  transition-duration: 0.3s;
+}
+
+.image-two {
+  background-image: url("/static/images/ski.png");
+  background-size: contain;
+  width: 470px;
+  height: 312px;
+  cursor: pointer;
+}
+
+.image-three {
+  background-image: url("/static/images/vaskichi.png");
+  background-size: contain;
+  width: 470px;
+  height: 312px;
+  cursor: pointer;
+}
+
+.image-four {
+  background-image: url("/static/images/next-js.png");
+  background-size: contain;
+  width: 470px;
+  height: 312px;
+  cursor: pointer;
 }
 
 .contacts {
   display: flex;
   flex-direction: column;
   text-align: center;
-  /* justify-content: center; */
-  width: 60%;
+  width: 80vw;
   margin: 0 auto;
   height: 100vh;
   color: #81f5af;
@@ -157,7 +211,7 @@ nav li:hover {
 
 .contacts h2 {
   font-size: 3rem;
-  padding: 5rem 0;
+  padding: 0 0 5rem 0;
 }
 
 @media screen and (max-width: 368px) {
