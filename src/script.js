@@ -62,7 +62,7 @@ const buttonTextTexture = textureLoader.load(
 );
 
 // Mobile sizes
-const mobilesSize = window.innerWidth < 400;
+const mobilesSize = window.innerWidth < 700;
 
 const fontsLoader = new THREE.FontLoader();
 fontsLoader.load("/fonts/font.json", (font) => {
