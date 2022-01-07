@@ -10,6 +10,7 @@ import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeom
 const hamburger = document.querySelector(".hamburger");
 const navLinks = document.querySelector(".nav-links");
 const links = document.querySelectorAll(".nav-links li");
+const lines = document.querySelectorAll(".line");
 
 hamburger.addEventListener("click", () => {
   navLinks.classList.toggle("open");
@@ -17,6 +18,9 @@ hamburger.addEventListener("click", () => {
     link.classList.add("fade");
     document.body.style.height = "100%";
     document.body.style.overflow = "hidden";
+  });
+  lines.forEach((line) => {
+    line.classList.toggle("open");
   });
 });
 navLinks.addEventListener("click", () => {
@@ -149,18 +153,18 @@ fontsLoader.load("/fonts/font.json", (font) => {
   textTwo.receiveShadow = true;
   buttonText.receiveShadow = true;
 
-  text.position.y = 1.5;
+  text.position.y = mobilesSize ? 2 : 1.5;
   text.position.z = 0.3;
   text.rotation.x = -0.1;
 
   textTwo.position.z = 0.4;
-  textTwo.position.y = 0.2;
+  textTwo.position.y = mobilesSize ? 0.5 : 0.2;
   textTwo.scale.x = 0.48;
   textTwo.scale.y = 0.48;
   textTwo.scale.z = 0.48;
   textTwo.rotation.x = -0.1;
 
-  button.position.z = 1.2;
+  button.position.z = .7;
   button.rotation.x = -0.1;
 
   scene.add(text, textTwo, button);
@@ -190,7 +194,7 @@ const cubeGeometry = new RoundedBoxGeometry(
 const cubeMaterial = new THREE.MeshMatcapMaterial({ matcap: buttonTexture });
 const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
 
-cube.position.z = 1;
+cube.position.z = .5;
 cube.rotation.x = -0.1;
 scene.add(cube);
 

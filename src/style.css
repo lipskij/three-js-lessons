@@ -141,7 +141,7 @@ nav li:hover {
 
 .work h2 {
   font-size: 3rem;
-  padding: 0 0 10rem 0;
+  padding: 5rem 0 5rem 0;
 }
 
 .gallery {
@@ -231,6 +231,13 @@ nav li:hover {
     height: 3px;
     background: #81f5af;
     margin: 5px;
+    transition-delay: 0.1s;
+    transition-duration: 0.3s;
+  }
+  .line.open {
+    background: #0c0c0c;
+    transition-delay: 0.1s;
+    transition-duration: 0.3s;
   }
   nav {
     height: 3vh;
@@ -251,13 +258,13 @@ nav li:hover {
   nav ul {
     justify-content: space-evenly;
     align-items: center;
-    margin-top:31rem ;
-  } 
+    margin-top: 31rem;
+  }
   .nav-links {
     position: relative;
     height: 100vh;
     width: 100%;
-    background: #c665df;
+    background: linear-gradient(-145deg, #c665df, #81f5af);
     flex-direction: column;
     clip-path: circle(10px at 100% -1%);
     -webkit-clip-path: circle(10px at 100% -1%);
@@ -274,7 +281,7 @@ nav li:hover {
   }
   .nav-links li a {
     font-size: 2rem;
-    font-weight: 700;
+    font-weight: 600;
     color: #0c0c0c;
   }
   .nav-links li:nth-child(1) {
@@ -309,6 +316,7 @@ nav li:hover {
   .about {
     width: 90vw;
     height: 100%;
+    margin-bottom: 5rem;
   }
   .work {
     width: 90vw;
@@ -316,7 +324,7 @@ nav li:hover {
     margin: 0 auto;
   }
   .work h2 {
-    margin-top: 10rem;
+    margin-top: 0rem;
   }
   .gallery {
     display: flex;
