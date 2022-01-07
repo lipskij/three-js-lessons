@@ -50,7 +50,7 @@ nav li a {
   text-decoration: none;
   color: #81f5af;
   padding: 0.5rem;
-  transition: background-color .2s ease-out;
+  transition: background-color 0.2s ease-out;
   font-size: 1.5rem;
   border-radius: 10px;
   transition-duration: 0.3s;
@@ -154,11 +154,6 @@ nav li a:hover {
   width: 80vw;
   height: 100%;
   transition-duration: 0.3s;
-}
-
-.gallery a {
-  background-color: #81f5af;
-  width: 470px;
 }
 
 .gallery p {
@@ -348,6 +343,7 @@ nav li a:hover {
     align-items: center;
     justify-content: center;
   }
+
   .gallery p {
     padding: 0;
   }
