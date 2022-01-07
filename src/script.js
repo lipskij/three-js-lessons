@@ -4,6 +4,29 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 // import * as dat from "lil-gui";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 
+////////////////////////
+// Nav bar mobile
+
+const hamburger = document.querySelector(".hamburger");
+const navLinks = document.querySelector(".nav-links");
+const links = document.querySelectorAll(".nav-links li");
+
+hamburger.addEventListener("click", () => {
+  navLinks.classList.toggle("open");
+  links.forEach((link) => {
+    link.classList.add("fade");
+    document.body.style.height = "100%";
+    document.body.style.overflow = "hidden";
+  });
+});
+navLinks.addEventListener("click", () => {
+  const sepLink = navLinks;
+  sepLink.classList.remove("open");
+  document.body.style.overflow = "auto";
+});
+
+////////////////////////
+
 const mouse = new THREE.Vector2();
 
 function onMouseClick(event) {

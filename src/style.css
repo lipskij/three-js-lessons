@@ -226,9 +226,73 @@ nav li:hover {
 }
 
 @media screen and (max-width: 368px) {
-  nav {
-    display: none;
+  .line {
+    width: 40px;
+    height: 3px;
+    background: #81f5af;
+    margin: 5px;
   }
+  nav {
+    height: 3vh;
+    position: relative;
+    margin: auto;
+    width: 100%;
+    display: flex;
+  }
+  .hamburger {
+    position: absolute;
+    cursor: pointer;
+    right: 5%;
+    top: 50%;
+    transform: translate(-5%, -50%);
+    z-index: 2;
+    color: #81f5af;
+  }
+  nav ul {
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top:31rem ;
+  } 
+  .nav-links {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    background: #c665df;
+    flex-direction: column;
+    clip-path: circle(10px at 100% -1%);
+    -webkit-clip-path: circle(10px at 100% -1%);
+    transition: all 0.5s ease-out;
+    pointer-events: none;
+  }
+  .nav-links.open {
+    clip-path: circle(1000px at 100% -1%);
+    -webkit-clip-path: circle(1000px at 100% -1%);
+    pointer-events: all;
+  }
+  .nav-links li {
+    opacity: 0;
+  }
+  .nav-links li a {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #0c0c0c;
+  }
+  .nav-links li:nth-child(1) {
+    transition: all 0.5s ease 0.1s;
+  }
+  .nav-links li:nth-child(2) {
+    transition: all 0.5s ease 0.2s;
+  }
+  .nav-links li:nth-child(3) {
+    transition: all 0.5s ease 0.3s;
+  }
+  .nav-links li:nth-child(4) {
+    transition: all 0.5s ease 0.4s;
+  }
+  li.fade {
+    opacity: 1;
+  }
+
   canvas {
     width: 100vw;
     height: 100vh;
