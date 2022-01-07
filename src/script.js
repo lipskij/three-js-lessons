@@ -146,9 +146,27 @@ fontsLoader.load("/fonts/font.json", (font) => {
     bevelSegments: 4,
   });
 
+  // smiley
+  const smileyText = new THREE.TextBufferGeometry(
+    "curious one... I like you  :)",
+    {
+      font: font,
+      size: mobilesSize ? 0.15 : 0.2,
+      height: 0.2,
+      bevelEnabled: true,
+      curvedSegment: 5,
+      bevelThickness: 0.03,
+      bevelSize: 0.02,
+      bevelOffset: 0,
+      bevelSegments: 4,
+    }
+  );
+  //
+
   textOneGeometry.center();
   textTwoGeometry.center();
   buttonText.center();
+  smileyText.center();
 
   const material = new THREE.MeshMatcapMaterial({ matcap: matcapTexture });
 
@@ -159,6 +177,7 @@ fontsLoader.load("/fonts/font.json", (font) => {
   const text = new THREE.Mesh(textOneGeometry, material);
   const textTwo = new THREE.Mesh(textTwoGeometry, material);
   const button = new THREE.Mesh(buttonText, buttonTextMaterial);
+  const smiley = new THREE.Mesh(smileyText, buttonTextMaterial);
 
   text.castShadow = true;
   textTwo.castShadow = true;
@@ -178,14 +197,20 @@ fontsLoader.load("/fonts/font.json", (font) => {
   textTwo.scale.z = 0.48;
   textTwo.rotation.x = -0.1;
 
-  button.position.z = 0.7;
+  button.position.z = 1;
   button.rotation.x = -0.1;
 
-  scene.add(text, textTwo, button);
+  smiley.rotation.x = -0.1;
+  smiley.position.z = 0.6;
+  smiley.rotateY(Math.PI);
+  // smiley.rotateZ(Math.PI / -2);
+
+  scene.add(text, textTwo, button, smiley);
 
   const tick = () => {
     const elapsedTime = clock.getElapsedTime();
     button.position.y = -1 + Math.sin(elapsedTime * 2) * -0.1;
+    smiley.position.y = -1 + Math.sin(elapsedTime * 2) * -0.1;
     // Update controlss
     controls.update();
     // Render
@@ -199,7 +224,7 @@ fontsLoader.load("/fonts/font.json", (font) => {
 });
 
 const cubeGeometry = new RoundedBoxGeometry(
-  mobilesSize ? 2.5 : 3.5,
+  mobilesSize ? 2.7 : 3.5,
   1,
   0.5,
   7,
@@ -208,7 +233,7 @@ const cubeGeometry = new RoundedBoxGeometry(
 const cubeMaterial = new THREE.MeshMatcapMaterial({ matcap: buttonTexture });
 const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
 
-cube.position.z = 0.5;
+cube.position.z = 0.8;
 cube.rotation.x = -0.1;
 scene.add(cube);
 
