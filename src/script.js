@@ -39,7 +39,6 @@ navLinks.addEventListener("click", () => {
 
 ////////////////////////
 
-// const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
 function onMouseClick(event) {
@@ -299,13 +298,6 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 const clock = new THREE.Clock();
 
 const tick = () => {
-  // raycaster.setFromCamera(mouse, camera);
-  // const intersects = raycaster.intersectObjects(scene.children);
-  // for (let i = 0; i < intersects.length; i++) {
-  //   intersects[i].object.material.color.set(0xff0000);
-  //   console.log(cube);
-  // }
-
   const elapsedTime = clock.getElapsedTime();
   cube.position.y = -1 + Math.sin(elapsedTime * 2) * -0.1;
 
