@@ -1,8 +1,8 @@
 import "./style.css";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-// import * as dat from "lil-gui";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
+// import * as dat from "lil-gui";
 
 ////////////////////////
 // Nav bar mobile
@@ -36,6 +36,27 @@ navLinks.addEventListener("click", () => {
     line.classList.toggle("open");
   });
 });
+
+// Intersection observer for images
+
+const options = {
+  root: null,
+  threshold: .5,
+};
+
+
+function observerFn(entries) {
+  console.log(...entries);
+  entries[0].target.style.transform = "translateX(-300px)";
+  if(entries[0].isIntersecting) {
+    entries[0].target.style.transform = "translateX(0)";
+    entries[0].target.style = "opacity: 1";
+  }
+}
+const observer = new IntersectionObserver(observerFn, options);
+
+const image = document.querySelector(".image-two");
+observer.observe(image);
 
 ////////////////////////
 
