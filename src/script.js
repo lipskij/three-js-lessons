@@ -41,30 +41,34 @@ navLinks.addEventListener("click", () => {
 
 const options = {
   root: null,
-  threshold: .5,
+  threshold: 0.5,
 };
 
-
 function observerFn(entries) {
-  console.log(...entries);
-  entries[0].target.style.transform = "translateX(-300px)";
-  if(entries[0].isIntersecting) {
-    entries[0].target.style.transform = "translateX(0)";
-    entries[0].target.style = "opacity: 1";
-  }
+  // adjust css for mobile
+  entries.forEach((entry) => {
+    entry.target.style.transform = "translateX(-300px)";
+    entry.target.style.opacity = 0;
+
+    if (entry.isIntersecting) {
+      entry.target.style.transform = "translateX(0)";
+      entry.target.style.opacity = 1;
+    }
+  });
 }
 const observer = new IntersectionObserver(observerFn, options);
 
-const image = document.querySelector(".image-two");
-observer.observe(image);
+const image = document.querySelectorAll(".image");
+
+image.forEach((img) => {
+  observer.observe(img);
+});
 
 ////////////////////////
 
 const mouse = new THREE.Vector2();
 
 function onMouseClick(event) {
-  // calculate mouse position in normalized device coordinates
-  // (-1 to +1) for both components
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
@@ -81,8 +85,21 @@ function onTouchEnd(e) {
   const x = e.changedTouches[0].pageX;
   const y = e.changedTouches[0].pageY;
 
-  if (x > 70 && x < 250 && y > 400 && y < 470) {
-    window.scrollTo(0, "1800");
+  const mobileHeight = window.innerHeight;
+  const mobileWidth = window.innerWidth;
+
+  // Adjust for big phones
+  if (mobileHeight > 790) {
+    if (x > 35 && x < 350 && y > 450 && y < 670) {
+      window.scrollTo(0, "2000");
+    }
+  }
+
+  // Adjust for small phones
+  if (mobileHeight < 600) {
+    if (x > 70 && x < 250 && y > 400 && y < 470) {
+      window.scrollTo(0, "1800");
+    }
   }
 }
 
@@ -262,8 +279,8 @@ cube.position.z = 0.8;
 cube.rotation.x = -0.1;
 scene.add(cube);
 
-const material = new THREE.MeshStandardMaterial();
-material.roughness = 0.7;
+// const material = new THREE.MeshStandardMaterial();
+// material.roughness = 0.7;
 
 // Sizes
 const sizes = {
