@@ -27,10 +27,14 @@ navLinks.addEventListener("click", () => {
   const sepLink = navLinks;
   sepLink.classList.remove("open");
   document.body.style.overflow = "auto";
+  lines.forEach((line) => {
+    line.classList.toggle("open");
+  });
 });
 
 ////////////////////////
 
+// const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
 function onMouseClick(event) {
@@ -44,6 +48,16 @@ function onMouseClick(event) {
 
   if (x > 450 && x < 990 && y > 620 && y < 830) {
     window.scrollTo(0, "2000");
+  }
+}
+
+// Mobiele touch
+function onTouchEnd(e) {
+  const x = e.changedTouches[0].pageX;
+  const y = e.changedTouches[0].pageY;
+
+  if (x > 70 && x < 250 && y > 400 && y < 470) {
+    window.scrollTo(0, "1800");
   }
 }
 
@@ -164,7 +178,7 @@ fontsLoader.load("/fonts/font.json", (font) => {
   textTwo.scale.z = 0.48;
   textTwo.rotation.x = -0.1;
 
-  button.position.z = .7;
+  button.position.z = 0.7;
   button.rotation.x = -0.1;
 
   scene.add(text, textTwo, button);
@@ -194,7 +208,7 @@ const cubeGeometry = new RoundedBoxGeometry(
 const cubeMaterial = new THREE.MeshMatcapMaterial({ matcap: buttonTexture });
 const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
 
-cube.position.z = .5;
+cube.position.z = 0.5;
 cube.rotation.x = -0.1;
 scene.add(cube);
 
@@ -255,6 +269,13 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 const clock = new THREE.Clock();
 
 const tick = () => {
+  // raycaster.setFromCamera(mouse, camera);
+  // const intersects = raycaster.intersectObjects(scene.children);
+  // for (let i = 0; i < intersects.length; i++) {
+  //   intersects[i].object.material.color.set(0xff0000);
+  //   console.log(cube);
+  // }
+
   const elapsedTime = clock.getElapsedTime();
   cube.position.y = -1 + Math.sin(elapsedTime * 2) * -0.1;
 
@@ -265,6 +286,8 @@ const tick = () => {
 
   // Call tick again on the next frame
   window.addEventListener("click", onMouseClick, false);
+  window.addEventListener("touchend", onTouchEnd);
+
   window.requestAnimationFrame(tick);
 };
 
