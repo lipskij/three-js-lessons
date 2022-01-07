@@ -13,20 +13,25 @@ const links = document.querySelectorAll(".nav-links li");
 const lines = document.querySelectorAll(".line");
 
 hamburger.addEventListener("click", () => {
+  document.body.classList.toggle("open");
+
   navLinks.classList.toggle("open");
   links.forEach((link) => {
     link.classList.add("fade");
     document.body.style.height = "100%";
-    document.body.style.overflow = "hidden";
   });
+
   lines.forEach((line) => {
     line.classList.toggle("open");
   });
 });
+
 navLinks.addEventListener("click", () => {
   const sepLink = navLinks;
   sepLink.classList.remove("open");
+
   document.body.style.overflow = "auto";
+
   lines.forEach((line) => {
     line.classList.toggle("open");
   });
@@ -109,7 +114,7 @@ const fontsLoader = new THREE.FontLoader();
 fontsLoader.load("/fonts/font.json", (font) => {
   const textOneGeometry = new THREE.TextBufferGeometry("Emil Lipskij", {
     font: font,
-    size: mobilesSize ? 0.5 : 0.8,
+    size: mobilesSize ? 0.45 : 0.8,
     height: 0.2,
     bevelEnabled: true,
     curvedSegment: 5,
@@ -122,7 +127,7 @@ fontsLoader.load("/fonts/font.json", (font) => {
     "Front   End   Developer",
     {
       font: font,
-      size: mobilesSize ? 0.5 : 0.8,
+      size: mobilesSize ? 0.45 : 0.8,
       height: 0.2,
       bevelEnabled: true,
       curvedSegment: 5,

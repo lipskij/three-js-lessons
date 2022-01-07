@@ -225,7 +225,13 @@ nav li:hover {
   }
 }
 
-@media screen and (max-width: 375px) {
+@media screen and (max-width: 400px) {
+  body {
+    overflow: auto;
+  }
+  body.open {
+    overflow: hidden;
+  }
   .line {
     width: 40px;
     height: 3px;
@@ -264,7 +270,7 @@ nav li:hover {
     position: relative;
     height: 100vh;
     width: 100%;
-    background: linear-gradient(-145deg, #c665df, #81f5af);
+    background: linear-gradient(90deg, #4a65ef, #b04fe8);
     flex-direction: column;
     clip-path: circle(10px at 100% -1%);
     -webkit-clip-path: circle(10px at 100% -1%);
