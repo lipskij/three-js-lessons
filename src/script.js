@@ -151,7 +151,7 @@ fontsLoader.load("/fonts/font.json", (font) => {
   const textOneGeometry = new THREE.TextBufferGeometry("Emil Lipskij", {
     font: font,
     size: mobilesSize ? 0.45 : 0.8,
-    height: 0.2,
+    height: 0.15,
     bevelEnabled: true,
     curvedSegment: 5,
     bevelThickness: 0.03,
