@@ -225,6 +225,14 @@ nav li a:hover {
   }
 }
 
+/* Landscape */
+@media screen and (orientation: landscape) {
+  .about {
+    width: 90vw;
+    height: 100%;
+  }
+}
+
 @media screen and (max-width: 420px) {
   body {
     overflow: auto;
@@ -237,12 +245,10 @@ nav li a:hover {
     height: 3px;
     background: #81f5af;
     margin: 5px;
-    transition-delay: 0.1s;
     transition-duration: 0.3s;
   }
   .line.open {
     background: #0c0c0c;
-    transition-delay: 0.1s;
     transition-duration: 0.3s;
   }
   nav {
