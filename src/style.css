@@ -421,6 +421,12 @@ nav li a:hover {
     cursor: pointer;
   }
 
+  button:disabled {
+    background-color: #bebebe;
+    color: #0c0c0c;
+    cursor: not-allowed;
+  }
+
   /* When moving the mouse over the submit button, add a darker green color */
   input[type="submit"]:hover {
     background-color: #81f5af;
@@ -450,13 +456,18 @@ nav li a:hover {
     margin: -20px;
   }
 
+  .error {
+    color: red;
+    margin: 5px;
+  }
+
   footer {
     display: flex;
     flex-direction: row;
     width: 100vw;
     justify-content: center;
     color: #81f5af;
-    margin: 3rem 0 1rem 0 ;
+    margin: 3rem 0 1rem 0;
   }
   footer p {
     margin-right: 10px;

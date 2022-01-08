@@ -63,12 +63,32 @@ image.forEach((img) => {
   observer.observe(img);
 });
 
+// FORM VALIDATION
+
+const email = document.querySelector(".email");
+const emailCheck = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const contactFormButton = document.querySelector(".contact-button");
+
+function emailCheckup() {
+  // contact email input checkup regex
+  const errorElement = document.querySelector(".error");
+
+  if (!emailCheck.test(email.value)) {
+    contactFormButton.disabled = true;
+    errorElement.innerHTML = "Please enter a valid email address";
+  } else {
+    contactFormButton.disabled = false;
+    errorElement.innerHTML = "";
+  }
+}
+email.addEventListener("keyup", emailCheckup);
+
 // Footers year
 
 const footer = document.querySelector("footer");
-footer.appendChild(document.createTextNode(new Date().getFullYear()))
+footer.appendChild(document.createTextNode(new Date().getFullYear()));
 
-////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 
 const mouse = new THREE.Vector2();
 
