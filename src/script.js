@@ -4,7 +4,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 // import * as dat from "lil-gui";
 
-////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 // Nav bar mobile
 
 const hamburger = document.querySelector(".hamburger");
@@ -70,7 +70,6 @@ const emailCheck = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const contactFormButton = document.querySelector(".contact-button");
 
 function emailCheckup() {
-  // contact email input checkup regex
   const errorElement = document.querySelector(".error");
 
   if (!emailCheck.test(email.value)) {
@@ -214,7 +213,7 @@ fontsLoader.load("/fonts/font.json", (font) => {
 
   // smiley
   const smileyText = new THREE.TextBufferGeometry(
-    "Curious one... I like you  :)",
+    "Curious one... I like you  : )",
     {
       font: font,
       size: mobilesSize ? 0.15 : 0.2,
