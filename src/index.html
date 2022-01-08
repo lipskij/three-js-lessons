@@ -167,7 +167,38 @@
 
       <section class="contacts">
         <div>
-          <h2>CONTACTS</h2>
+          <h2>CONTACT</h2>
+          <div class="container">
+            <form action="">
+              <input
+                type="text"
+                class="name"
+                name="name"
+                placeholder="Your name.."
+                aria-label="Your name.."
+              />
+
+              <input
+                type="email"
+                class="email"
+                name="email"
+                placeholder="Your email.."
+                aria-label="Your email.."
+                required
+              />
+
+              <textarea
+                class="message"
+                name="message"
+                placeholder="Leave me a message.."
+                required
+                rows='4'
+                aria-label="Leave me a message.."
+              ></textarea>
+
+              <button type="submit" value="Submit">SEND</button>
+            </form>
+          </div>
         </div>
       </section>
     </main>
