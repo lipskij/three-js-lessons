@@ -63,6 +63,11 @@ image.forEach((img) => {
   observer.observe(img);
 });
 
+// Footers year
+
+const footer = document.querySelector("footer");
+footer.appendChild(document.createTextNode(new Date().getFullYear()))
+
 ////////////////////////
 
 const mouse = new THREE.Vector2();
