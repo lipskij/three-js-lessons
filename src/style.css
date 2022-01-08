@@ -22,8 +22,6 @@ body {
 nav {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  min-height: 4rem;
   height: 4rem;
   width: 100%;
   background: #0c0c0c;
@@ -248,7 +246,6 @@ nav li a:hover {
     transition-duration: 0.3s;
   }
   nav {
-    height: 3vh;
     position: relative;
     margin: auto;
     width: 100%;
@@ -265,24 +262,26 @@ nav li a:hover {
   }
   nav ul {
     justify-content: space-evenly;
-    align-items: center;
-    margin-top: 31rem;
+    height: 100vh;
+    align-self: start;
+    transition: all 0.3s ease-out;
   }
+
   .nav-links {
     position: relative;
-    height: 100vh;
     width: 100%;
     background: linear-gradient(90deg, #4a65ef, #b04fe8);
     flex-direction: column;
-    clip-path: circle(10px at 100% -1%);
-    -webkit-clip-path: circle(10px at 100% -1%);
-    transition: all 0.5s ease-out;
     pointer-events: none;
+    clip-path: circle(5px at 100% -5%);
+    -webkit-clip-path: circle(5px at 100% -5%);
+    transition: all 0.3s ease-out;
   }
   .nav-links.open {
+    height: 100vh;
+    pointer-events: all;
     clip-path: circle(1000px at 100% -1%);
     -webkit-clip-path: circle(1000px at 100% -1%);
-    pointer-events: all;
   }
   .nav-links li {
     opacity: 0;
@@ -308,13 +307,6 @@ nav li a:hover {
     opacity: 1;
   }
 
-  canvas {
-    width: 100vw;
-    height: 100vh;
-  }
-  html {
-    width: 100vw;
-  }
   .triangle-left {
     display: none;
   }
@@ -342,6 +334,7 @@ nav li a:hover {
     margin: 0 auto;
     align-items: center;
     justify-content: center;
+    row-gap: 5rem;
   }
 
   .gallery p {

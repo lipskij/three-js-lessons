@@ -45,9 +45,8 @@ const options = {
 };
 
 function observerFn(entries) {
-  // adjust css for mobile
   entries.forEach((entry) => {
-    entry.target.style.transform = "translateX(-300px)";
+    entry.target.style.transform = "translateX(-100px)";
     entry.target.style.opacity = 0;
 
     if (entry.isIntersecting) {
@@ -190,7 +189,7 @@ fontsLoader.load("/fonts/font.json", (font) => {
 
   // smiley
   const smileyText = new THREE.TextBufferGeometry(
-    "curious one... I like you  :)",
+    "Curious one... I like you  :)",
     {
       font: font,
       size: mobilesSize ? 0.15 : 0.2,
